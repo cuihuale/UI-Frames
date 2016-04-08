@@ -1,0 +1,175 @@
+1、前端页面有哪三层构成，分别是什么？作用是什么？
+
+结构层（由 HTML 或 XHTML 之类的标记语言负责创建）、表现层（由CSS控制）、行为层（Javascript 语言和 DOM 主宰的领域）
+
+2、啥子是css内联式，外联式，嵌入式?
+
+内联式就是样式的属性内容直接跟在将要修饰的html标记里，如：
+<div style=”height:30px;font-size:12px;”></div>
+外联式就是通过<link href=”my.css” type=”text/css” rel=”stylesheet”/> 或者 @import url(my.css); 方式引入css
+嵌入式就是用<style type=”text/css”></style>方式把CSS直接写在网页中
+
+3、去掉链接的虚线框方法
+
+a{blr:expression(this.onFocus=this.blur());}
+a:focus{outline:none;}//FF下
+其实这里还不算全部的解决方法，另篇文章里我COPY来了一份网上别人总结出来的方法，可以点这里查看
+
+4、a链接的顺序
+
+l-v-f-h-a 既：link-visited-focus-hover-active 这里可能大家很少用到的就是focus，这个其实也是一种链接状态，就是当你在键盘上按Tab键时获得焦点的那个链接的即时状态，遗憾的是ie并不支持（ie中按Tab键显示的效果为a:active时的状态），只有在FF,Opera等浏览器下才能看到效果。就经常性我们就会用成L-V-H-A，这个东西其实还真有点不好记，好多人觉得老是混淆特别是那个A，这里有高人把它比如成“由爱生恨” Love Hate（LV-HA），哈哈 好记了吧！
+
+5、css hack
+
+*: IE6-7
+_: IE6
+\0: IE8-9
+\9: IE6-9
+!important: FF、IE7-9
+
+CSS HACK书写顺序:先写FF等非IE浏览器所需样式，其次写IE8所需样式，接着是IE7的，再接着才是IE6的！
+
+6、list-style-type 在ie6、ie7中不显示的解决
+
+解决方法是给项目符号腾空间，代码：li{margin-left:25px;}
+
+7、在IE9和FF中如何改变选择文本颜色和背景色
+
+::selection { background:色值;color:色值; }
+::-moz-selection { background:色值;color:色值; }
+
+8、如何关闭iOS中键盘自动大写
+
+在iOS中，当虚拟键盘弹出时，默认情况下键盘是开启首字母大写的功能的，移动版本webkit为input元素提供了autocapitalize属性，通过指定autocapitalize=”off”来关闭键盘默认首字母大写
+
+9、table中word-wrap:break-word;失效怎么解决
+
+在table加上
+word-wrap:break-word;
+;
+
+10、IE6双边距
+
+display:inline;
+
+11、如何解决IE6及更早浏览器下当li内部元素是定义了display:block的内联元素时底部产生空白的问题？
+
+BUG重现：
+a,span{display:block;background:#ddd;}
+
+<ul><li><a href="http://www.appue.com/">AppUE</a></li><li><a href="http://www.appue.com/">AppUE</a></li><li><a href="http://www.appue.com/">AppUE</a></li><li><span>测试li内部元素为设置了display:block的内联元素时底部产生空白</span></li></ul>
+如上代码，IE6及更早浏览器每个li内部的内联元素底部都会产生空白。解决方案是给li内部的内联元素再加上zoom:1
+
+12、如何解决IE7及更早浏览器下子元素相对定位时父元素overflow属性的auto|hidden失效的问题？
+
+div{overflow:auto;width:260px;height:80px;border:1px solid #ddd;}
+p{position:relative;margin:0;}
+
+<div><p>如果我是相对定位，我的父元素overflow属性设置为auto|hidden将失效。如果你使用的是IE及更早浏览器，你将可以看到这个BUG</p><p>如果我是相对定位，我的父元素overflow属性设置为auto|hidden将失效。如果你使用的是IE及更早浏览器，你将可以看到这个BUG</p></div>
+如上代码，在IE7及更早浏览器下你会看到div的滚动条将无法工作。解决方案是给div也设置相对定位position:relative
+
+13、如何清除图片下方出现几像素的空白间隙？
+
+方法1：
+img{display:block;}
+
+方法2：
+img{vertical-align:top;}除了top值，还可以设置为text-top | middle | bottom | text-bottom，甚至特定的和 值都可以
+
+方法3：
+#img{font-size:0;line-height:0;}#img为img的父元素
+
+14、如何让文本垂直对齐文本输入框？
+
+input{vertical-align:middle;}
+
+15、为什么Standard mode下IE无法设置滚动条的颜色？
+
+html{scrollbar-3dlight-color:#999;scrollbar-darkshadow-color:#999;scrollbar-highlight-color:#fff;scrollbar-shadow-color:#eee;scrollbar-arrow-color:#000;scrollbar-face-color:#ddd;scrollbar-track-color:#eee;scrollbar-base-color:#ddd;}
+将原来设置在body上的滚动条颜色样式定义到html标签选择符上即可
+
+16、如何使文本溢出边界不换行强制在一行内显示？
+
+#test{white-space:nowrap;width:150px;}
+设置容器的宽度和white-space为nowrap即可，其效果类似<nobr>标签
+
+17、如何使文本溢出边界显示为省略号？
+
+（此方法Firefox5.0尚不支持）：
+
+#test{width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+首先需设置将文本强制在一行内显示，然后将溢出的文本通过overflow:hidden截断，并以text-overflow:ellipsis方式将截断的文本显示为省略号。
+
+18、如何使连续的长字符串自动换行？
+
+#text{width:150px;word-wrap:break-word;}
+word-wrap的break-word值允许单词内换行
+
+19、如何让已知高度的容器在页面中水平垂直居中？
+
+#test{position:absolute;top:50%;left:50%;width:200px;height:200px;margin:-100px 0 0 -100px;}
+20、如何让未知尺寸的图片在已知宽高的容器内水平垂直居中？
+
+#test{display:table-cell;*display:block;*position:relative;width:200px;height:200px;text-align:center;vertical-align:middle;}#test p{*position:absolute;*top:50%;*left:50%;margin:0;}#test p img{*position:relative;*top:-50%;*left:-50%;vertical-align:middle;}
+#test是img的祖父节点，p是img的父节点。Know More：未知尺寸的图片如何水平垂直居中
+
+21、如何设置span的宽度和高度（即如何设置内联元素的宽高）？
+
+span{display:block;width:200px;height:100px;}
+要使内联元素可以设置宽高，只需将其定义为块级或者内联块级元素即可。所以方法非常多样，既可以设置display属性，也可以设置float属性，
+或者position属性等等。
+
+22、如何给一个元素定义多个不同的css规则？
+
+.a{color:#f00;}
+.b{background:#eee;}
+.c{background:#ccc;}
+
+<div class=”a b”>测试1</div>
+<div class=”a c”>测试2</div>
+
+多个规则之间使用空格分开，并且只有class能同时使用多个规则，id不可以
+
+23、如何让某个元素充满整个页面？
+
+html,body{height:100%;margin:0;}#test{height:100%;}
+24、如何让某个元素距离窗口上右下左4边各10像素？
+
+html,body{height:100%;margin:0;}html{_padding:10px;}#test{position:absolute;top:10px;right:10px;bottom:10px;left:10px;_position:static;_height:100%;}
+25、如何容器透明，内容不透明？
+
+方法1：
+
+.outer{width:200px;height:200px;background:#000;filter:alpha(opacity=20);opacity:.2;}.inner{width:200px;height:200px;margin-top:-200px;}<div class="outer"></div><div class="inner">我是不透明的内容</div>
+原理是容器层与内容层并级，容器层设置透明度，内容层通过负margin或者position绝对定位等方式覆盖到容器层上
+
+方法2：
+
+.outer{width:200px;height:200px;background:rgba(0,0,0,.2);background:#000\9;filter:alpha(opacity=20)\9;}.outer .inner{position:relative\9;}<div class="outer"><div class="inner">我是不透明的内容</div></div>
+高级浏览器直接使用rgba颜色值实现；IE浏览器在定义容器透明的同时，让子节点相对定位，也可达到效果
+
+26、为什么2个相邻div的margin只有1个生效？
+
+.box1{margin:10px 0;}
+.box2{margin:20px 0;}
+
+<div class=”box1″>box1</div>
+<div class=”box2″>box2</div>
+
+本例中box1的底部margin为10px，box2的顶部margin为20px，但表现在页面上2者之间的间隔为20px，
+而不是预想中的10+20px=30px，结果是选择2者之间最大的那个margin，我们把这种机制称之为“外边距合并”；
+外边距合并不仅仅出现在相邻的元素间，父子间同样会出现。
+
+简单列举几点注意事项:
+外边距合并只出现在块级元素上；
+浮动元素不会和相邻的元素产生外边距合并；
+绝对定位元素不会和相邻的元素产生外边距合并；
+内联块级元素间不会产生外边距合并；
+根元素间不会产生外边距合并（如html与body间）；
+设置了属性overflow且值不为visible的块级元素不会与它的子元素发生外边距合并；
+
+27、如何在文本框中禁用中文输入法？
+
+input,textarea{ime-mode:disabled;}
+
+ime-mode为非标准属性，写该文档时只有IE和Firefox支持 
