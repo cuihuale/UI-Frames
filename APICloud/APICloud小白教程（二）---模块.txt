@@ -1,0 +1,228 @@
+
+知识点：
+
+      1、模块使用流程
+
+      2、模块使用的注意事项
+
+      3、模块案例实践
+
+一、使用流程
+
+    1、打开控制台，找到你的应用，点击左边的菜单模块
+
+    2、在模块页面选择右边的模块列表，并搜索你要添加的模块（这里我们是UIScrollPicture）然后点击左边的“+”添加模块
+
+
+二、注意事项：
+
+    1、：必须在控制台添加模块才能使用！
+
+    2、：有些模块必须申请Key才能使用，必须严格按照官方提供的第三方接入教程申请Key。如：百度模块，支付宝模块，微信模块，等等。
+
+    3、：部分模块还需要在config.xml中配置相应的节点才能使用，如百度模块(bMap)需要配置：
+
+      <feature name="bMap">
+        <param name="android_api_key" value="f7Is0dWLom2q6rV3ZfFPZ1aa" />
+        <param name="ios_api_key" value="81qz3dBYB5q2nGji4IYrawr1" />
+      </feature>
+
+   4、在页面上必须通过api.require("模块名称")引用该模块，并放在apiready=function(){}方法中！
+
+   5、编写好代码之后，必须云编译或者编译自定义loader使用！
+
+   6、额外说明：申请第三方Key的时候，IOS的Bundle ID其实就是包名
+
+    （特别注意：IOS的未发布正式版的APP全部包名是：com.apicloud.testapp，正式版就是下面截图的包名！)。
+
+三、APP实践
+
+    实践一：UIScrollPicture轮播图的使用
+
+    1、步骤一，先代码该模块的文档：http://docs.apicloud.com/%E7%AB% ... %80/UIScrollPicture
+
+    2、复制文档中的Open方法的案例到编辑器中，注意（所有的模块都要执行上面说的注意事项），代码如下：
+
+               var obj = api.require('UIScrollPicture');
+    var paths = ['widget://res/slide1.jpg', 'widget://res/slide2.jpg', 'http://f.hiphotos.baidu.com/image/pic/item/4e4a20a4462309f7bdca9423710e0cf3d7cad65d.jpg', 'widget://res/slide3.jpg', 'widget://res/slide4.jpg'];
+    var captions = ['title1', 'title2', 'title3', 'title4', 'title5'];
+
+    obj.open({
+        rect: {
+            x: 0,
+            y: 20,
+            w: api.winWidth,
+            h: 200
+        },
+        data: {
+            paths: paths,
+            captions: captions
+        },
+        styles: {
+            caption: {
+                height: 35,
+                color: '#E0FFFF',
+                size: 13,
+                bgColor: '#696969',
+                position: 'bottom'
+            },
+            indicator: {
+                align: 'center',
+                color: '#FFFFFF',
+                activeColor: '#DA70D6'
+            }
+        },
+        placeholderImg: 'widget://res/slide1.jpg',
+        contentMode: 'scaleToFill',
+        interval: 3,
+        loop: true,
+        fixedOn: '',
+        fixed: false
+    }, function(ret, err){
+         if(ret.status){
+            if(ret.eventType == 'click'){
+                //点击图片的操作
+                alert(ret.index);
+            }
+         }
+    });
+
+   
+   3、页面的HTML代码如下：
+
+    <!DOCTYPE HTML>
+    <html>
+            <head>
+                    <meta charset="utf-8">
+                    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+                    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+                    <title>小白之路</title>
+                    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+                    <style type="text/css">
+                            #bannder {
+                                    height: 200px;        /* 和UIScrollPictrue模块一样高度 */
+                            }
+                    </style>
+            </head>
+            <body>
+                    <!--幻灯片的容器-->
+                    <div id="bannder"></div>
+                    <!--主要内容容器-->
+                    <div class="other-content">
+                            1
+                            <br />
+                            2
+                            <br />
+                            3
+                            <br />
+                            4
+                            <br />
+                            5
+                            <br />
+                            6
+                            <br />
+                            7
+                            <br />
+                            8
+                            <br />
+                            9
+                            <br />
+                            10
+                            <br />
+                            11
+                            <br />
+                            12
+                            <br />
+                            13
+                            <br />
+                            14
+                            <br />
+                            15
+                            <br />
+                            16
+                            <br />
+                            17
+                            <br />
+                            18
+                            <br />
+                            19
+                            <br />
+                            20
+                            <br />
+                            21
+                            <br />
+                            22
+                            <br />
+                    </div>
+            </body>
+            <script type="text/javascript" src="../script/api.js"></script>
+            <script type="text/javascript">
+                    apiready = function() {
+                            var obj = api.require('UIScrollPicture');
+                            var paths = ['http://www.winu.net/a.jpg', 'http://www.winu.net/a.jpg', 'http://www.winu.net/a.jpg'];
+                            // 如果不希望显示文字，设置为：[];
+                            var captions = ['标题一', '标题二', '标题三'];
+                            obj.open({
+                                    rect : {
+                                            x : 0,
+                                            y : 0,
+                                            w : api.winWidth,
+                                            h : 200
+                                    },
+                                    data : {
+                                            paths : paths,
+                                            captions : captions
+                                    },
+                                    styles : {
+                                            caption : {
+                                                    height : 35,
+                                                    color : '#E0FFFF',
+                                                    size : 13,
+                                                    bgColor : '#696969',
+                                                    position : 'bottom'
+                                            },
+                                            indicator : {
+                                                    align : 'center',
+                                                    color : '#FFFFFF',
+                                                    activeColor : '#DA70D6'
+                                            }
+                                    },
+                                    placeholderImg : 'widget://res/slide1.jpg',
+                                    contentMode : 'scaleToFill',
+                                    interval : 3,
+                                    loop : true,
+                                    fixedOn : 'main',
+                                    fixed : false
+                            }, function(ret, err) {
+                                    if (ret.status) {
+                                            if (ret.eventType == 'click') {
+                                                    //点击图片的操作
+                                                    alert(ret.index);
+                                            }
+                                    }
+                            });
+                    };
+            </script>
+    </html>
+
+
+
+      注意：
+
+1、是否在控制台添加该模块了
+2、是否该模块放在Frame页面，而不是Window页面，必须要放在Frame页面！
+3、看看刚刚复制过来的代码是否填写fixedOn参数了。这个非常重要！！！！，必须写当前Frame的名称！！！！！要不然会直接盖住头部！
+4、是否云提交代码和更新了。
+5、提交代码之后是否编译自定义loader或者云编译了。
+6、编译自定义loader之后，是否点真机运行了。
+7、还有就是广告图的图片路径必须正确！！！、
+
+8、问题又来了，发现幻灯片盖住了主要内容！那时因为我们没有给banner容器高度，应该给banner容器的高度和UIScrollPicture使用的高度一致：200
+9、如果想隐藏轮播图的文字，可以设置captions参数为：[] 即可
+
+
+
+
+
+
+    
