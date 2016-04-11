@@ -1,0 +1,299 @@
+
+1、APP分类：  原生APP、WEBAPP、混合APP
+
+2、主流混合APP开发平台：PhoneGap，AppCan，HBuider(HTML 5+)，APICloud，Wex5等
+
+3、APICloud：
+
+            IDE------------开发
+
+            控制台---------发布
+
+            端API--------- api库---------api.方法名，回调函数：ret、err
+
+            模块-----------api.require("模块名称")
+
+            云API----------云数据库，检测更新
+
+4、APICloud设计模式
+
+            头------------window
+
+            身----------- frame,页面
+
+5、IDE---------APICloud Studio介绍和快捷键
+
+        常用快捷键有：
+
+Ctrl+Z：撤销
+Ctrl+N：创建项目或文件
+Ctrl+Shift+F：代码格式化（这个经常用，可以美化代码，也可以通过这个检查代码是否出错）
+Ctrl+/ ：注释和反注释
+Alt+/：强制代码提示
+Ctrl+D：剪切该行
+Ctrl+R：真机运行（常用）
+Ctrl+W：编译自定义Loader（常用）
+Ctrl+Y：反撤销
+Ctrl+L：跳到改行（注意，如果需要在IDE中显示行号，只需要在代码区域的最左边右键显示行号就可以了）
+Ctrl+S：保存
+Ctrl+F：搜索
+Ctrl+H：搜索替换
+Ctrl+M：最大化或最小化当前焦点区域，比如像最大化代码区域或者工程目录区域，只需要在该区域空白地方点一下，就可以通过它最大化最小化了。  
+Ctrl+C：复制  
+Ctrl+V：黏贴  
+Ctrl+E：快速切换已经的标签（常用）
+Shift+Enter：在当前光标下面新增一行，无需把光标放在最后面Enter，（这个非常常用，极大提高编程速度）
+Ctrl+Shift+Enter：在当前光标上面添加新增一行（这个非常常用，极大提高编程速度）
+Ctrl+Shift+E：切换当前文件，（非常常用，可以快速从一个页面切换到另一个页面编辑器）
+Ctrl+Shift+R：全局搜索所有文件并快速打开（这个很牛逼，可以全局搜索项目中有哪些文件，然后直接打开，非常实用，这样找文件就非常容易了！）
+Ctrl+Shift+W：关闭所有页面
+Ctrl+Shift+L：显示所有快捷键的操作，再也不怕忘记快捷键了
+
+6、流布局
+
+   一个Flexbox布局是由一个伸缩容器（flex containers）和在这个容器里的伸缩项目（flex items）组成。
+
+   div{  display:flex; }
+
+   flex-flow:row wrap | column ;  方向 ，wrap是flex item折行
+
+   flex:1; 剩余宽度比例
+
+   如果伸缩容器把“flex-flow”设置为“row”后，伸缩项目将需要设置他们的宽度。伸缩项目的高度将会自动设置为伸缩容器的高度
+
+   如果伸缩容器把“flex-flow”设置为“column”后，伸缩项目将需要设置他们的高度，伸缩项目的宽度将会自动设置为伸缩容器的宽度
+
+   webkit下需要添加前缀-webkit
+
+7、APICloud 新建
+
+       新建空白项目-----云端同步------提交+更新
+
+       删除默认代码
+
+8、实现简单三栏布局
+ 
+      （由于APP一打开，默认创建了一个名称为root的Window窗口，所以首页我们无需再创建，只需创建Frame即可）
+
+          <div id="web-view">
+                            <div id="header">
+                                    我是头部
+                            </div>
+                            <div id="main"></div>
+                            <div id="footer"></div>
+                    </div>
+
+         添加CSS样式，将id为main的区域变为自动伸缩布局，头和尾部固定：
+
+
+             <style type="text/css">
+                            /*必须设置这个属性*/
+                            html, body {
+                                    height: 100%;
+                            }
+                            #web-view {
+                                    display: -webkit-box;
+                                    display: -webkit-flex;
+                                    display: flex;
+                                    /* 下面三个控制子div的显示方式，是垂直显示 */
+                                    -webkit-box-orient: vertical;
+                                    -webkit-flex-flow: column;
+                                    flex-flow: column;
+                                    /* 上面三个控制子div的显示方式，是垂直显示 */
+                                    height: 100%;
+                                    /*===== 如果想让div水平排布，可以使用下面代码 ====*/
+                                    /*-webkit-box-orient: horizontal;
+                                     -webkit-flex-flow: row;
+                                     flex-flow: row;
+                                     width: 100%;*/
+                            }
+                            #header {
+                                    height: 44px;/*固定头部 */
+                                    background: #f00;
+                                    text-align: center;
+                                    line-height: 44px;
+                                    color: #fff;
+                            }
+                            #footer {
+                                    height: 50px;/*固定尾部*/
+                                    background: #00f;
+                            }
+                            #main {
+                                    /*设置main为伸缩布局*/
+                                    -webkit-box-flex: 1;
+                                    -webkit-flex: 1;
+                                    flex: 1;
+                                    background: #00f;
+                            }
+                    </style>
+
+9、在Index页面创建Frame，也就是在Main区域打开。在打开之前先说明一些注意的东西，我相信很多朋友在学习的时候
+
+   都碰到过IOS或Android状态栏遮住问题，或者想实现状态栏沉浸式效果，那你需要做下面几件事情：
+
+   1）、在根目录下面的config.xml配置文件中添加以下代码：
+
+      <preference name="statusBarAppearance" value="true"/>
+      <preference name="iOS7StatusBarAppearance" value="true"/>
+      <preference name="softInputMode" value="resize"/>
+
+   2）优化官方的fixStatusBar代码，通过这个代码就可以兼容以前版本和未来版本状态栏问题！包括IOS和Android版本！
+
+           // 解决状态栏重合，并优化fixStatusBar代码,Android4.4版本以上添加25px
+                    function fixStatusBar(headerid, callback) {
+                            var header = $api.byId(headerid);
+                            var systemType = api.systemType;
+                            var systemVersion = parseFloat(api.systemVersion);
+                            if (systemType == "ios" || (systemType == "android" && systemVersion >= 4.4)) {
+                                    if (systemType == "android") {
+                                            header.style.paddingTop = '25px';
+                                    }
+                                    $api.fixStatusBar(header);
+                            } else {
+                                    $api.fixIos7Bar(header);
+                            }
+                            var headerPos = $api.offset(header);
+                            if ( typeof callback == "function") {
+                                    callback(headerPos);
+                            }
+                    }
+
+        3）创建并打开main框架，也就是页面的主体      
+
+                apiready = function() {
+                            // 获取底部的高度
+                            var footer = $api.byId("footer");
+                            var footerPos = $api.offset(footer);
+                            fixStatusBar("header", function(headerPos) {
+                                    api.openFrame({
+                                            name : 'main',
+                                            url : './html/main.html',
+                                            rect : {
+                                                    x : 0,
+                                                    y : headerPos.h,
+                                                    w : api.winWidth,
+                                                    h : api.winHeight - headerPos.h - footerPos.h // footerPos.h是底部的高度,也可以直接获取main的高度
+                                            },
+                                            pageParam : {
+                                            },
+                                            bounces : true,
+                                            bgColor : 'rgba(0,0,0,0)',
+                                            vScrollBarEnabled : false,
+                                            hScrollBarEnabled : false
+                                    });
+                            });
+                    };
+
+10、直接使用快捷的Ctrl+R真机运行就可以看到效果了。如果想看沉浸式的效果，
+
+   可以云编译或者编译自定义Loader使用（快捷键为Ctrl+W）,新版本直接真机调试也可以看到了。
+
+   首页全部代码：
+
+    <!doctype html>
+    <html>
+            <head>
+                    <meta charset="utf-8">
+                    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+                    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+                    <title>小白之路</title>
+                    <link rel="stylesheet" type="text/css" href="./css/api.css" />
+                    <style type="text/css">
+                            /*必须设置这个属性*/
+                            html, body {
+                                    height: 100%;
+                            }
+                            #web-view {
+                                    display: -webkit-box;
+                                    display: -webkit-flex;
+                                    display: flex;
+                                    /* 下面三个控制子div的显示方式，是垂直显示 */
+                                    -webkit-box-orient: vertical;
+                                    -webkit-flex-flow: column;
+                                    flex-flow: column;
+                                    /* 上面三个控制子div的显示方式，是垂直显示 */
+                                    height: 100%;
+                                    /*===== 如果想让div水平排布，可以使用下面代码 ====*/
+                                    /*-webkit-box-orient: horizontal;
+                                     -webkit-flex-flow: row;
+                                     flex-flow: row;
+                                     width: 100%;*/
+                            }
+                            #header {
+                                    height: 44px;/*固定头部 */
+                                    background: #f00;
+                                    text-align: center;
+                                    line-height: 44px;
+                                    color: #fff;
+                            }
+                            #footer {
+                                    height: 50px;/*固定尾部*/
+                                    background: #00f;
+                            }
+                            #main {
+                                    /*设置main为伸缩布局*/
+                                    -webkit-box-flex: 1;
+                                    -webkit-flex: 1;
+                                    flex: 1;
+                                    background: #0f0;
+                            }
+                    </style>
+            </head>
+            <body>
+                    <div id="web-view">
+                            <div id="header">
+                                    我是头部
+                            </div>
+                            <div id="main"></div>
+                            <div id="footer"></div>
+                    </div>
+            </body>
+            <script type="text/javascript" src="./script/api.js"></script>
+            <script type="text/javascript">
+                    // 解决状态栏重合，并优化fixStatusBar代码,Android4.4版本以上添加25px
+                    function fixStatusBar(headerid, callback) {
+                            var header = $api.byId(headerid);
+                            var systemType = api.systemType;
+                            var systemVersion = parseFloat(api.systemVersion);
+                            if (systemType == "ios" || (systemType == "android" && systemVersion >= 4.4)) {
+                                    if (systemType == "android") {
+                                            header.style.paddingTop = '25px';
+                                    }
+                                    $api.fixStatusBar(header);
+                            } else {
+                                    $api.fixIos7Bar(header);
+                            }
+                            var headerPos = $api.offset(header);
+                            if ( typeof callback == "function") {
+                                    callback(headerPos);
+                            }
+                    }
+
+                    apiready = function() {
+                            // 获取底部的高度
+                            var footer = $api.byId("footer");
+                            var footerPos = $api.offset(footer);
+                            fixStatusBar("header", function(headerPos) {
+                                    api.openFrame({
+                                            name : 'main',
+                                            url : './html/main.html',
+                                            rect : {
+                                                    x : 0,
+                                                    y : headerPos.h,
+                                                    w : api.winWidth,
+                                                    h : api.winHeight - headerPos.h - footerPos.h // footerPos.h是底部的高度,也可以直接获取main的高度
+                                            },
+                                            pageParam : {
+                                            },
+                                            bounces : true,
+                                            bgColor : 'rgba(0,0,0,0)',
+                                            vScrollBarEnabled : false,
+                                            hScrollBarEnabled : false
+                                    });
+                            });
+                    };
+            </script>
+    </html>
+      
+
+   
