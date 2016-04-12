@@ -1,0 +1,63 @@
+Apicloud常见问题建议方案
+
+取消ios手机号自动识别
+<meta name="format-detection"content="telephone=no">
+========================================================
+消除ajax跨域问题
+使用官方提供的api.ajax方法
+========================================================
+解决ios头部与状态栏重合
+1.var $header = $api.byId('header');
+$api.fixIos7Bar($header);
+2.若头部使用了fixed定位，改用javascript解决
+         if(api.systemType=='ios'){
+       $('.header').css('padding-top','20px')
+       $('.header+.banner').css('margin-top','64px')
+    }
+=======================================================
+页面传值的几种方法
+1.新开窗口(api.openWin)或子窗口(api.openFrame)或窗口组(api.openFrameGroup)的时候传值使用pageParam
+2.使用api.execScript({}),需要注意的是指定窗口名称的时候一定要看清楚
+3.设置缓存信息，使用$api.setStorage或者api.setPrefs()
+=======================================================
+常用到的事件需要注意的几个细节
+1.tap事件，底层封装，性能优于click，但是不建议使用zepto封装的tap
+         api.addEventListener({
+             name:'tap'
+         },function(ret,err){
+             //operation
+         })
+2.viewappear事件,当页面在主窗口显示时触发（窗口组切换无效）
+         api.addEventListener({
+             name:'viewappear'
+         },function(ret,err){
+             //operation
+         })
+3.scrolltobottom事件，适用于滑到底部刷新
+         api.addEventListener({
+             name:'scrolltobottom'
+         },function(ret,err){
+             //operation
+         })
+=======================================================
+关于apiready的一些注意事项
+apiready是官方建议的方法，它是在文档加载完成后执行，类似jquery的ready方法
+文档加载完成后，api会作为全局变量留存
+=======================================================
+关于页面刷新的几点建议
+......
+=======================================================
+关于ios点击事件无响应的解决方法
+1.ios对touch类事件支持良好，建议使用封装后的tap事件
+2.若第一种方式无效，直接封装成函数，使用onclick调用
+3.使用监听事件
+api.addEventListener({
+    name: 'click'
+}, function(ret, err){
+    api.parseTapmode();
+});
+=======================================================
+文字过长导致换行解决方法
+英文单词过长(word-wrap:break-word;)
+中文过长(overflow: hidden;text-overflow:ellipsis;white-space:nowrap;)
+=======================================================
