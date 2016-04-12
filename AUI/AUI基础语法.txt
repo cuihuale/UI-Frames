@@ -1,0 +1,219 @@
+一、概述
+
+    1、<head>标签中添加：
+
+          <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    
+          <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+
+          <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+
+          注意，在win窗口中如果没有特别的处理，建议使用aui-win.css或aui-win.min.css
+   
+    2、AUI Flex：
+
+        AUI Flex(aui-flex.css)采用12个栅格进行布局,使用了aui-flex-col(横向)和aui-flex-row(纵向)两种容器，只需要把栅格放入容器中即可.
+
+        语法详解：
+
+A.容器类
+
+.aui-flex-col 横向排列
+.aui-flex-row 纵向排列
+
+B.栅格类
+
+.aui-flex-item-*   *为从1-12数字，默认将屏幕进行12等分进行排列
+.aui-flex-offset-*   *为从1-12数字，向左偏移量
+.aui-flex-auto  自动填充宽度
+
+C.对齐类
+
+.aui-flex-top 顶端对齐
+.aui-flex-bottom 底部对齐
+.aui-flex-left 左对齐
+.aui-flex-right 右对齐
+.aui-flex-middle 垂直居中
+.aui-flex-center 水平居中
+.aui-flex-between 等宽对齐
+
+       3、布局容器
+
+           AUI的布局容器有两种.aui－content、.aui-card和.aui-content-padded；.aui-card为圆角卡片式容器。
+
+           用户可以根据实际情况来定义。.aui-content-padded为增加了10px的内边距。
+
+       4、布局
+
+          AUI的柵格同样是采用12等分的形式，.aui-col-xs-*。
+
+          文字类对齐
+
+.aui-text-left
+
+.aui-text-center
+
+.aui-text-right
+
+
+元素对齐
+
+.aui-pull-left
+
+.aui-pull-right
+
+        5、按钮
+
+         AUI支持为<a>、<button>、<input>、<div>增加.aui—btn来使用按钮效果。使用.aui-btn-*来选择使用AUI提供的样式。
+
+         （*：default\primary\success\info\warning\danger）   在app中建议不要使用<button>标签来定义按钮
+ 
+        6、文字
+
+         AUI对文字除了在颜色做了简单处理外，对于单标签的文字定义也处理了一下。
+
+h1 —— 18px
+
+h2 —— 17px
+
+h3 —— 16px
+
+h4 —— 16px
+
+h5 —— 14px （color:#8f8f94）
+
+p —— 14px （color:#848f94）
+
+a —— color:#0062cc
+
+         7、下拉刷新
+
+            一、aui-pull-refresh.css   aui-pull-refresh.js
+
+            二、aui-pull-refresh-2.css  aui-pull-refresh-2.js
+
+           使用时需要引入css样式及js，数据加载完成后调用cancelLoading()取消下拉加载
+
+         8、色值
+
+            AUI的色值采用目前算是比较主流的色调，字体、背景、按钮、角标、标签觉采用aui-*-warning的方式：
+
+文字类：.aui-text-*
+
+背景颜色：.aui-bg-*
+
+按钮：.aui-btn-*
+
+角标：.aui-badge-*
+
+标签：.aui-label-*
+
+色值对照：
+
+.aui-*-primary —— #1abc9c
+
+.aui-*-success —— #2ecc71
+
+.aui-*-info —— #3498db
+
+.aui-*-warning —— #f1c40f
+
+.aui-*-danger —— #e74c3c
+
+          9、瀑布流
+
+             采用css3 column 进行的瀑布流样式布局，使用瀑布流布局时需引入api.js 和一个只有1kb大小的 aui-waterfall.js
+
+           10、标签
+
+               提供了几个默认色值的小标签效果，用户可以根据自己的需要来对颜色进行自由配置。.aui-label来定义标签，.aui-label-*为样式。
+
+            11、导航类
+
+               AUI的顶部导航为6个色调(增加了.aui-bar-dark   color为#34495e)，并对$api.fixStatusBar(el)做了兼容出来，在结合该属性使用时需要注意一点。
+
+               如果导航栏没有左右按钮时，必须要使用
+
+               <header class="aui-bar aui-bar-nav aui-bar-warning">AUI</header>
+
+              如果做有左右按钮可以直接：
+
+                <header id="header  class="aui-bar aui-bar-nav"><div class="aui-title">名称</div></header>
+         
+            12、边框样式
+
+                新增边框样式分，四周边框，圆角边框，上边框，下边框，左边框，有边框，上下边框
+
+.aui-border-t 上边框
+
+.aui-border-b 下边框
+
+.aui-border-tb 上下边框
+
+.aui-border-l 左边框
+
+.aui-border-r 右边框
+
+.aui-border 边框
+
+.aui-border.aui-border-radius  圆角边框
+
+              13、底部切换栏
+
+              底部工具栏进行了重写，可以结合api.openFrameGroup()完成切换
+
+              14、索引列表
+
+               根据首字母查询的索引列表
+
+               新增文件
+
+               aui-indexed-list.css
+
+               aui-indexed-list.js
+
+             15、列表
+
+                .aui-list-view 普通列表类的布局容器，.aui-list-view-cell列表项
+
+             16、带有角标和箭头的列表
+
+             17、缩略图列表
+
+                 带有缩略图的列表效果，在.aui-list-view-cell 增加.aui-img即可实现，可以通过.aui-pull-left来控制图片的位置
+
+             18、图片列表
+
+                 图片列表效果接住柵格布局决定一行显示数量。.aui-list-view结合.aui-gird-view来使用。
+
+                 图片布局没有对图片高度进行控制，也就是会按原比例来显示。
+  
+             19、计数列表
+
+                 计数列表是模仿一个购物车类的列表实现的效果，。aui-list-view-cell 和 .aui-img aui-counter-list搭配使用。
+
+                 通过使用aui-check和aui-radio来实现选择效果。对于加减号按钮同样可以使用色值里面的说明进行配置。
+
+             20、通讯录效果
+
+                 使用效果跟.aui-list-view是一样的，无非在这我们使用.aui-user-view来完成
+
+             21、九宫格、十六宫格
+
+                 AUI里面定义了一套九宫格的样式，貌似现在大屏手机使用九宫格显得有些空虚，就顺便弄了个十六宫格，使用.aui-grid-nine和.aui-grid-sixteen来布局。
+
+                 宫格类的操作因为加了线条分割的样式，所以在布局的时候最好为9或16的倍数，并且最大为9或16个块，最少为3或4。同样的也可以结合.aui-card。
+
+             22、TAB菜单
+
+                 色调主题有：默认配色及aui-tab-success, aui-tab-info, aui-tab-warning, aui-tab-danger, aui-tab-dark
+
+             23、表单
+
+                 表单效果进行了全面优化，使用.aui-form定义表单容器，.aui-input-row来布局行。
+
+                 .aui-input-addon为输入框名称（label），可以在其内插入字体图标，使用.aui-pull-left  .aui-pull-righ控制位置。
+
+                 .aui-input  定义输入框效果。
+
+                 
